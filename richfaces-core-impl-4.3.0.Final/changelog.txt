@@ -1,0 +1,7 @@
+Changes in 4.3.0.Final-e2
+* Added original sources from 4.3.0.Final-e1 (new directory created, because richfaces-core-impl was overwritten by upgrade to 4.3.7, which did not happened)
+* Richfaces patched to be compatible with Guava 28.0-jre, main changes:
+** com.google.common.collect.MapMaker is changed to custom com.google.common.cache.richfaces.MapMaker, which is implemented in new artifact richfaces-guava-compatibility-layer
+** Iterators.emptyIterator() -> Collections.emptyIterator()
+** com.google.common.base.Objects changed to com.google.common.base.MoreObjects as per Guava recommendation
+** Closeables.closeQuietly replaced to plain Java aproach

@@ -1,0 +1,14 @@
+Changes in 4.3.0.Final-e13
+* Richfaces patched to be compatible with Guava 28.0-jre, main changes:
+** Iterators.emptyIterator() -> Collections.emptyIterator()
+** Added implementations of new Predicate test method to avoid compilation failures
+** com.google.common.collect.MapMaker is changed to custom com.google.common.cache.richfaces.MapMaker, which is implemented in new artifact richfaces-guava-compatibility-layer
+** com.google.common.base.Objects changed to com.google.common.base.MoreObjects as per Guava recommendations
+** Closeables.closeQuietly replaced to plain Java aproach
+** com.google.common.io.InputSupplier replaced with com.google.common.io.ByteStreams - solution taken from newer richfaces guava deprecation removal
+
+Changes in 4.3.0.Final-e12
+* Update POM for source jar generation
+
+Changes in 4.3.0.Final-e11
+* Patched richfaces 'TooltipRenderer' class to avoid issue of faces-config.xml load order and prevent execution of JavaScript from tooltip.

@@ -1,0 +1,2 @@
+Changes in 4.3.7.Final-e3
+* Patched richfaces 'TooltipRenderer' class to avoid issue of faces-config.xml load order and prevent execution of JavaScript from tooltip.

@@ -1,0 +1,4 @@
+Changes in 4.3.0.Final-e1
+* Richfaces patched to be compatible with Guava 28.0-jre, main changes:
+** Iterators.emptyIterator() -> Collections.emptyIterator()
+** com.google.common.base.Objects changed to com.google.common.base.MoreObjects as per Guava recommendation

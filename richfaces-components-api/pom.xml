@@ -1,0 +1,200 @@
+<!--
+
+    JBoss, Home of Professional Open Source Copyright 2010, Red Hat,
+    Inc. and individual contributors by the @authors tag. See the
+    copyright.txt in the distribution for a full listing of
+    individual contributors. This is free software; you can
+    redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software
+    Foundation; either version 2.1 of the License, or (at your
+    option) any later version. This software is distributed in the
+    hope that it will be useful, but WITHOUT ANY WARRANTY; without
+    even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+    PARTICULAR PURPOSE. See the GNU Lesser General Public License
+    for more details. You should have received a copy of the GNU
+    Lesser General Public License along with this software; if not,
+    write to the Free Software Foundation, Inc., 51 Franklin St,
+    Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
+    http://www.fsf.org.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+    <groupId>org.richfaces.ui</groupId>
+    <artifactId>richfaces-ui-parent</artifactId>
+    <version>4.3.0.Final</version>
+    <relativePath>../../parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>richfaces-components-api</artifactId>
+    <packaging>jar</packaging>
+    <name>Richfaces UI Components API</name>
+    <version>4.3.0.Final-e2-SNAPSHOT</version>
+
+    <properties>
+        <richfaces.components.api.version>4.3.0.Final</richfaces.components.api.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <scm>
+        <connection>scm:hg:https://vno-hg.exigengroup.com/hg/eis-thirdparty</connection>
+        <developerConnection>scm:hg:https://vno-hg.exigengroup.com/hg/eis-thirdparty</developerConnection>
+        <url>https://vno-hg.exigengroup.com/hg/eis-thirdparty</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <!-- EIS THIRDPARTY REPO -->
+        <repository>
+            <id>eis-thirdparty</id>
+            <name>EIS Thirdparty Repository</name>
+            <url>http://luxor.internal.corp/nexus/content/repositories/eis-thirdparty</url>
+        </repository>
+    </distributionManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.richfaces.ui</groupId>
+            <artifactId>richfaces-components-api</artifactId>
+            <version>4.3.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>28.0-jre</version>
+        </dependency>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.richfaces.core</groupId>
+                <artifactId>richfaces-core-api</artifactId>
+                <version>4.3.0.Final-e1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>com.google.guava:guava</exclude>
+                                    <exclude>com.google.guava:failureaccess</exclude>
+                                    <exclude>com.google.guava:listenablefuture</exclude>
+                                    <exclude>com.google.code.findbugs:jsr305</exclude>
+                                    <exclude>org.checkerframework:checker-qual</exclude>
+                                    <exclude>com.google.errorprone:error_prone_annotations</exclude>
+                                    <exclude>com.google.j2objc:j2objc-annotations</exclude>
+                                    <exclude>org.codehaus.mojo:animal-sniffer-annotations</exclude>
+                                    <exclude>org.glassfish:javax.faces</exclude>
+                                    <exclude>javax.validation:validation-api</exclude>
+                                    <exclude>org.richfaces.core:richfaces-core-api</exclude>
+                                </excludes>
+                            </artifactSet>
+                            <filters>
+                                <filter>
+                                    <artifact>org.richfaces.ui:richfaces-components-api:${richfaces.components.api.version}</artifact>
+                                    <includes>
+                                        <include>**/*.class</include>
+                                        <include>**/*.xml</include>
+                                        <include>**/*.xsd</include>
+                                        <include>**/*.MF</include>
+                                        <include>**/*.properties</include>
+                                    </includes>
+                                    <excludes>
+                                        <exlude>org/richfaces/model/DeclarativeTreeDataModelTuple.class</exlude>
+                                        <exlude>org/richfaces/model/SwingTreeNodeImpl.class</exlude>
+                                        <exlude>org/richfaces/model/TreeDataModelTuple.class</exlude>
+                                        <exlude>org/richfaces/model/TreeNodeImpl.class</exlude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Plugins for source generation (shade plugin source option fail to include patched java files) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.richfaces.ui</groupId>
+                                    <artifactId>richfaces-components-api</artifactId>
+                                    <version>${richfaces.components.api.version}</version>
+                                    <classifier>sources</classifier>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/merged_sources</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/merged_sources</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.sourceDirectory}</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.eisgroup.eis.maven</groupId>
+                <artifactId>eis-maven-source-dir-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>external-dir-jar</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <sourceRoot>${project.build.directory}/merged_sources/</sourceRoot>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

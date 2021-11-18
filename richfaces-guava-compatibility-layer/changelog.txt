@@ -1,0 +1,5 @@
+Changes in 1.0
+* Added original sources of Guava 28.0-jre classes responsible for richfaces cache handling
+* All classes moved to custom package com.google.common.cache.richfaces
+* Reapplied patch from 23.6-jre-e1, which made newer Guava compatible with old richfaces
+* In this way created seperate dependency only used in richfaces to handle cache operations
